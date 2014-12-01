@@ -9,7 +9,6 @@ public class SpaceshipController : MonoBehaviour
 
         // References
 				            private			Spaceship		    m_LinkedShip;
-                            private         QteUI               m_LinkedQteUI;
 
 	#endregion
 
@@ -19,7 +18,6 @@ public class SpaceshipController : MonoBehaviour
 		void Start()
 		{
 			m_LinkedShip = GetComponent<Spaceship>();
-            m_LinkedQteUI = QteManager.GetQteUI();
 		}
 
 	#endregion
@@ -58,7 +56,7 @@ public class SpaceshipController : MonoBehaviour
 					m_LinkedShip.ThrowSpaceman();
 			}
 
-            else if (!m_LinkedShip.IsSpacemanInShip() && m_LinkedShip.IsLanded() && m_LinkedShip.IsLoadedResources())
+            else if (m_LinkedShip.IsLanded() && m_LinkedShip.IsLoadedResources())
             {
                 if (Input.GetMouseButtonDown(0))
                 {

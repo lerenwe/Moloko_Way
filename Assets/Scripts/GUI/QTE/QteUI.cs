@@ -19,10 +19,7 @@ public class QteUI : MonoBehaviour
         void Awake()
         {
             QteManager.SetQteUI(this);
-        }
-
-        void Start()
-        {
+            
             m_RightClick = GetComponentInChildren<RightClick>();
             m_LeftClick = GetComponentInChildren<LeftClick>();
 

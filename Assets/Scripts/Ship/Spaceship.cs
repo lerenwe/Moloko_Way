@@ -19,8 +19,8 @@ public class Spaceship : MonoBehaviour
 
         // Fuel
         [SerializeField]    private         float               m_FuelMax                       = 100.0f;
-        [SerializeField]    private         float               m_FuelHealLevel                 = 0.08f;
-        [SerializeField]    private         float               m_FuelLoseLevel                 = 0.07f;
+        [SerializeField]    private         float               m_FuelHealLevel                 = 100.0f;
+        [SerializeField]    private         float               m_FuelLoseLevel                 = 0.08f;
                             private         float               m_Fuel;
 
 		// Landing
@@ -58,8 +58,9 @@ public class Spaceship : MonoBehaviour
 
         // Scoring
         [SerializeField]    private         int                 m_ScorePerResource              = 100;
-		
-							private   Animator m_Anim;
+        					
+		// Animations
+							private   		Animator 			m_Anim;
 
 	#endregion
 
@@ -79,11 +80,11 @@ public class Spaceship : MonoBehaviour
             m_Spaceman                  = PlayersManager.m_Spaceman;
             m_Fuel                      = m_FuelMax;
 
-            m_Planet = PlanetManager.GetPlanet();
-            transform.position = m_Planet.transform.position + (Vector3.up * m_Planet.collider.bounds.size.y)/2;
+            m_Planet 					= PlanetManager.GetPlanet();
+            transform.position 			= m_Planet.transform.position + (Vector3.up * m_Planet.collider.bounds.size.y)/2;
 
-            m_LinkedQteUI = QteManager.GetQteUI();
-			m_Anim = GameObject.FindObjectOfType<VaisseauUIManager> ().m_anim;
+            m_LinkedQteUI 				= QteManager.GetQteUI();
+			m_Anim 						= GameObject.FindObjectOfType<VaisseauUIManager> ().m_anim;
 		}
 
 	#endregion
@@ -113,7 +114,7 @@ public class Spaceship : MonoBehaviour
                 UpdateFuel();
                 UpdateInvincibilityTimer();
 
-                if (!IsSpacemanInShip() && IsLanded() && IsLoadedResources())
+                if (IsLanded() && IsLoadedResources())
                     UpdateQteTimer();
             }
 		}
@@ -132,8 +133,7 @@ public class Spaceship : MonoBehaviour
                 if(m_ActualVelocity < 0 && m_ActualVelocity < -m_SpeedLimitToCrash)
 					GameManager.SetGameOver();												// Ship crashed
 				else
-                    //if (!m_IsSpacemanInShip)
-                        Land();
+                    Land();
 			}
             
 			foreach(string tag in m_ObstaclesTags)
@@ -176,7 +176,6 @@ public class Spaceship : MonoBehaviour
         {
             m_IsLanded = true;
             ResetQteTimer();
-            // Animation of landing
         }
 
 		public void Move(Vector3 direction)
@@ -241,11 +240,8 @@ public class Spaceship : MonoBehaviour
 
         public void UnloadResource()
         {
-			if(!IsSpacemanInShip())
-			{
-	            GameObject unloadedResource = m_LoadedResources[m_LoadedResources.Count - 1];
-	            m_LoadedResources.Remove(unloadedResource);
-			 }
+			GameObject unloadedResource = m_LoadedResources[m_LoadedResources.Count - 1];
+	        m_LoadedResources.Remove(unloadedResource);
         }
 
     #endregion
@@ -284,9 +280,11 @@ public class Spaceship : MonoBehaviour
             {
                 m_Fuel += m_FuelHealLevel;
                 if (m_Fuel > m_FuelMax)
-                    m_Fuel = m_FuelMax;
-					m_Anim.SetTrigger("FuelUp");
+                	m_Fuel = m_FuelMax;
+                	
+				m_Anim.SetTrigger("FuelUp");
             }
+            
             else
             {
                 m_Fuel -= m_FuelLoseLevel;
