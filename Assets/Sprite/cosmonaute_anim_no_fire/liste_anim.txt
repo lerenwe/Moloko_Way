@@ -1,0 +1,11 @@
+1 a 19 : vol normal
+20 a 24 : engage la descente puis, 
+          loop de la frame 24 tant qu' il est en descente
+25 a 29 : fin de descente
+30 a 34 : engage la montée puis,
+          loop de la frame 34 tant qu' il est en montée
+35 a 39 : fin de la montée
+40 a 54 : a ramassé un collectible
+55 a 110 : se prend un obstacle
+
+
